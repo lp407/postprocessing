@@ -6,6 +6,13 @@ uniform sampler2D uTexture;
 uniform float uWidth;
 uniform float uHeight;
 
+// colors
+uniform vec3 uColor0;
+uniform vec3 uColor1;
+uniform vec3 uColor2;
+uniform vec3 uColor3;
+uniform vec3 uColor4;
+
 out vec4 outColor;
 
 float rand(vec2 co) {
@@ -28,20 +35,20 @@ float grayScale(vec4 color){
 }
 
 void main(){
-    vec4 color = downSample(1.0);
+    vec4 color = downSample(2.0);
     // color = texture(uTexture, vTexCoord);
     float grayScaleValue = grayScale(color);
-    grayScaleValue += rand(vTexCoord) * 0.25;
+    grayScaleValue += rand(vTexCoord) * 0.15 -0.05;
     if(grayScaleValue > 0.9){
-        color.xyz = vec3(1.0, 0.4, 0.4);
+        color.xyz = uColor0;//vec3(1.0, 0.4, 0.4);
     } else if(grayScaleValue > 0.7){
-        color.xyz = vec3(0.4, 0.4, 0.7);
+        color.xyz = uColor1;//vec3(0.4, 0.4, 0.7);
     } else if (grayScaleValue > 0.5){
-        color.xyz = vec3(0.3, 0.1, 0.4);
+        color.xyz = uColor2;//vec3(0.3, 0.1, 0.4);
     } else if (grayScaleValue > 0.1){
-        color.xyz = vec3(0.1, 0.0, 0.0);
+        color.xyz = uColor3;//vec3(0.1, 0.0, 0.0);
     } else{
-        color.xyz = vec3(0.0, 0.0, 0.0);
+        color.xyz = uColor4;//vec3(0.0, 0.0, 0.0);
     }
     outColor = color;
 }
