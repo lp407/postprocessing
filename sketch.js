@@ -42,7 +42,7 @@ let vid;
 let colors = [];
 let serial; // Instance of the serialport library
 let latestData = "waiting for data"; // Latest data from the serial port
-let serialPortName = '/dev/ttyACM0';
+let serialPortName = 'COM18';
 let currentIndex = 0;
 
 function windowResized() {
@@ -51,7 +51,8 @@ function windowResized() {
 
 function preload(){
   myShader = loadShader('shader.vert', 'shader.frag');
-  pic = loadImage('image2.jpg');
+  pic = loadImage('image3.JPEG');
+  vid = createVideo('vid2.MP4');
 }
 
 function setup() {
@@ -61,17 +62,22 @@ function setup() {
     let x = [random(255), random(255), random(255)];
     colors.push(x);
   }
-
+  vid.hide();
+  vid.loop();
+  console.log("h")
   serial = new p5.SerialPort(); // Make a new instance of the serialport library
   serial.on('data', serialEvent); // Callback function for when new data arrives
   serial.openPort(serialPortName); // Open a serial port
+}
+
+function mousePressed(){
 }
 
 function draw() {
   background(220);
   shader(myShader);
 
-  myShader.setUniform('uTexture', pic);
+  myShader.setUniform('uTexture', vid);
   myShader.setUniform('uWidth', width);
   myShader.setUniform('uHeight', height);
   for (let i = 0; i < 5; i++){
@@ -84,9 +90,7 @@ function draw() {
 function serialEvent() {
   latestData = serial.readLine(); // Read the latest data from the serial port
   let data = latestData.split(',').map(Number); // Split the data on commas and convert to numbers
-  console.log(data);
   if (data.length === 4) {
-    // Set the current index and color using the values from the Arduino
     currentIndex = data[0];
     colors[currentIndex] = [data[1]/1023, data[2]/1023, data[3]/1023];//color(data[1]/1023, data[2]/1023, data[3]/1023);
   }

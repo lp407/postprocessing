@@ -35,8 +35,8 @@ float grayScale(vec4 color){
 }
 
 void main(){
-    vec4 color = downSample(2.0);
-    // color = texture(uTexture, vTexCoord);
+    // vec4 color = downSample(2.0);
+    vec4 color = texture(uTexture, vTexCoord);
     float grayScaleValue = grayScale(color);
     grayScaleValue += rand(vTexCoord) * 0.15 -0.05;
     if(grayScaleValue > 0.9){
@@ -50,5 +50,6 @@ void main(){
     } else{
         color.xyz = uColor4;//vec3(0.0, 0.0, 0.0);
     }
+    // outColor = vec4(grayScaleValue)
     outColor = color;
 }
